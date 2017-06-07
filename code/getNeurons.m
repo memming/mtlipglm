@@ -13,6 +13,7 @@ fl = dir(fullfile(dataPath, 'neurons', [exname '*']));
 
 if isempty(fl)
     neurons = [];
+    warning('Neuron data file corresponding to [%s] not found. Check [%s]', exname, fullfile(dataPath, 'neurons'));
     return
 end
 
