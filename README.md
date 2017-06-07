@@ -8,14 +8,15 @@ This Repo provides MATLAB code for the analyses in Yates et al. (2017)
 
 Create a local copy of mtlipglm by cloning or downloading a zip
 
-```
+```shell
 	git clone https://github.com/jcbyts/mtlipglm
 ```
 
 You will also need the `classy` branch of neuroGLM code
 
-```
+```shell
 	git clone https://github.com/jcbyts/neuroGLM
+	cd neuroGLM
 	git checkout classy
 ```
 
@@ -28,7 +29,7 @@ The code will not run without local copies of the data. To quickly reproduce fig
 
 You can download the data through #1 or #2 and then refit yourself, or download #3 as well for a quick reproduction of figure 5.
 
-If you downloaded the fits, move main_fits and lip_trunc_fits to the directory where neurons and stim are. The mtlipglm code will assume that they are all in the same base directory.
+If you downloaded the fits, move `main_fits` and `lip_trunc_fits` to the directory where neurons and stim are. The `mtlipglm` code will assume that they are all in the same base directory.
 
 ### Before running
 Note: this code has only been tested on MATLAB 2015b and newer.
