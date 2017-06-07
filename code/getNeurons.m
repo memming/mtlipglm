@@ -1,4 +1,4 @@
-function neurons = getNeurons(exname, dataDir)
+function neurons = getNeurons(exname, dataPath)
 % GETNEURONS gets spike times and meta data for experiment <exname>
 % INPUT: 
 % 	exname   <char>  experiment name
@@ -9,7 +9,7 @@ function neurons = getNeurons(exname, dataDir)
 % EXAMPLE CALL
 % 	neurons = getNeurons('p20140304', './data');
 
-fl = dir(fullfile(dataDir, 'neurons', [exname '*']));
+fl = dir(fullfile(dataPath, 'neurons', [exname '*']));
 
 if isempty(fl)
     neurons = [];
@@ -17,5 +17,5 @@ if isempty(fl)
 end
 
 for k = 1:numel(fl)
-    neurons(k) = neuro(fullfile(dataDir, 'neurons', fl(k).name));
+    neurons(k) = neuro(fullfile(dataPath, 'neurons', fl(k).name));
 end
