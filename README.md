@@ -22,9 +22,9 @@ You will also need the `classy` branch of neuroGLM code
 ### Getting the data
 The code will not run without local copies of the data. To quickly reproduce figures from the manuscript requires both the data and the fitted GLMs. Because all the data and fits takes up a fair amount of disk space, there are a number of options.
 
-1. [neurons, stimulus (with eye position)]()
-2. [neurons, stimulus (no eye position data)](https://www.dropbox.com/sh/jqzhqja09bczt96/AADcWJ_WDLSGHXVyd71RjuVoa?dl=0)
-3. [LIP fits](https://www.dropbox.com/sh/1kzzg9r946mfosq/AABjbHa_MNtLJt0nlH3nxneNa?dl=0)
+1. [neurons, stimulus (with eye position)](https://www.dropbox.com/s/ix7vtrid2rlfuyx/mtlipglm_data_full.zip?dl=0)
+2. [neurons, stimulus (no eye position data)](https://www.dropbox.com/s/0myzjnh5xy014pi/mtlipglm_data_small.zip?dl=0)
+3. [LIP fits](https://www.dropbox.com/s/xc5n2wh02wsjhzg/mtlipglm_lip_fits.zip?dl=0)
 
 You can download the data through #1 or #2 and then refit yourself, or download #3 as well for a quick reproduction of figure 5.
 
@@ -105,6 +105,9 @@ The rest of the code revolves around two classes: `mtlipglm` and `glmspike`
 `glmspike` is an inherits `neuroGLM` and can be used the same way. It contains additional methods for setting up particular parameterizations of the basis functions, compiling the design matrix, and performing the fitting.
 
 `mtlipglm` is the workhorse. It creates a `trial` structure that is required by `neuroGLM`. It sets up the specific `glmspike` objects for each GLM and fits them. It also has model comparison code to analyze the data.
+
+
+
 
 
 
