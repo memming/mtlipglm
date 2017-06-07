@@ -3,7 +3,7 @@
 
 % path to the data base directory. dataPath should have subdirectories
 % neurons, stim, main_fits, lip_trunc_fits
-dataPath = 'D:\mtlip_data_share\';
+dataPath = getpref('mtlipglm', 'dataPath');
 
 %% Load up LIP fits
 

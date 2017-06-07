@@ -5,7 +5,7 @@
 % All analyses are handled by the mtlipglm class. The design/fitting of
 % each GLM is handled by the glmspike class, which is an instance of the
 % neuroGLM class available at https://github.com/jcbyts/neuroGLM
-dataPath = 'D:\mtlip_data_share';
+dataPath = getpref('mtlipglm', 'dataPath');
 
 % --- Find experiments that have multiple LIP units
 experiments=getExperimentsAnd({'LIP', 'simultaneous'});
