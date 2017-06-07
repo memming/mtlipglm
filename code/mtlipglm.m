@@ -546,15 +546,9 @@ classdef mtlipglm < handle
                 g(kModel).addBiasColumn('right')
                 g(kModel).model.regressionMode=obj.regressionMode;
                 
-                if strncmp(g(kModel).model.regressionMode, 'RidgeGroup', 10)
-                    labels={g(kModel).covar.label};
-                    regInds=~strncmp(labels, 'resp', 4);
-                    colInds=cell2mat(g(kModel).getDesignMatrixColIndices(labels(regInds)));
-                    g(kModel).fitCV(obj.trial, obj.nFolds, rho, colInds);
-                    
-                else
-                    g(kModel).fitCV(obj.trial, obj.nFolds, rho);
-                end
+
+                g(kModel).fitCV(obj.trial, obj.nFolds, rho);
+
                 
                 g(kModel).save(obj.modelDir, obj.stim.exname);
                 g(kModel)=struct2funh(g(kModel), false);
@@ -599,15 +593,9 @@ classdef mtlipglm < handle
                 g(kModel).addBiasColumn('right')
                 g(kModel).model.regressionMode=obj.regressionMode;
                 
-                if strncmp(g(kModel).model.regressionMode, 'RidgeGroup', 10)
-                    labels={g(kModel).covar.label};
-                    regInds=~strncmp(labels, 'resp', 4);
-                    colInds=cell2mat(g(kModel).getDesignMatrixColIndices(labels(regInds)));
-                    g(kModel).fitCV(obj.trial, obj.nFolds, rho, colInds);
-                    
-                else
-                    g(kModel).fitCV(obj.trial, obj.nFolds, rho);
-                end
+
+                g(kModel).fitCV(obj.trial, obj.nFolds, rho);
+
                 
                 g(kModel).save(obj.modelDir, obj.stim.exname);
                 g(kModel)=struct2funh(g(kModel), false);
