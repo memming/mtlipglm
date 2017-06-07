@@ -957,64 +957,7 @@ classdef mtlipglm < handle
             
             title(sprintf('Trial %d', kTrial))
         end
-        
-        
-        %% plot event related covariogram
-        function computeEventRelatedCovariogram(obj, n1, n2, event, varargin)
-            % compute a cross-covariogram for spikes aligned to an event
-            % computeEventRelatedCovariogram(trial, neuron1, neuron2, eventName, varargin)
-            
-            p=inputParser();
-            p.addOptional('lag', 200)
-            p.addOptional('smoothing', 20)
-            p.addOptional('window', [-1e3 -100])
-            h=plot(0,0);
-            p.addOptional('Color', get(h, 'Color'))
-            p.parse(varargin{:})
-            
-            if isempty(obj.binSize)
-                obj.binSize=10;
-            end
-            
-            lag=p.Results.lag/obj.binSize;
-            smwin=p.Results.smoothing/obj.binSize;
-            clr=p.Results.Color;
-            
-            n=neuroGLM('binSize', obj.binSize);
-            
-            neuronNames=findFile(fieldnames(obj.trial), 'neuron');
-            assert(any(strcmp(neuronNames, n1)), 'Neuron names must be fields of trial struct')
-            assert(any(strcmp(neuronNames, n2)), 'Neuron names must be fields of trial struct')
-            
-            y1=n.getBinnedSpikeTrain(obj.trial, n1, 1:numel(obj.trial));
-            y2=n.getBinnedSpikeTrain(obj.trial, n2, 1:numel(obj.trial));
-            
-            
-            ev=find(n.getBinnedSpikeTrain(obj.trial, event, 1:numel(obj.trial)));
-            iter=0;
-            maxIter=100;
-            while any(diff(ev)<lag) && iter < maxIter
-                ev(diff(ev)<lag)=[];
-                iter=iter+1;
-            end
-            fprintf('exited loop at iter %d. %d events left\n', iter, numel(ev))
-            
-            
-            
-            win=p.Results.window/obj.binSize;
-            y1a=binContinuous(y1, ev, win);
-            y2a=binContinuous(y2, ev, win);
-            x=y1a*obj.binSize/1e3;
-            y=y2a*obj.binSize/1e3;
-            
-            [xc, shigh, slow]=covariogram(x,y,lag);
-            plot((-lag:lag)*obj.binSize,smooth(xc,smwin), 'Color', clr);
-            hold all
-            plot((-lag:lag)*obj.binSize, shigh, 'k--')
-            plot((-lag:lag)*obj.binSize, slow, 'k--')
-            xlabel('lag (ms)')
-        end
-        
+
         
         function plotChoPSTH(obj, n1, event, varargin)
             % compute a cross-covariogram for spikes aligned to an event
