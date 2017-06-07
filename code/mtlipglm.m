@@ -905,8 +905,6 @@ classdef mtlipglm < handle
             xlim([0 2])
             ylim([0 1])
             
-            sciencestagram(gcf, 10, [10 10])
-            
         end
         
         %% plot trial
@@ -1065,7 +1063,7 @@ classdef mtlipglm < handle
                 ev(diff(ev)<lag)=[];
                 iter=iter+1;
             end
-            fprintf('exited loop at iter %d. %d events left\n', iter, numel(ev))
+%             fprintf('exited loop at iter %d. %d events left\n', iter, numel(ev))
             
             
             %             coh=arrayfun(@(x) sum(x.pulses), obj.trial);
@@ -1092,6 +1090,7 @@ classdef mtlipglm < handle
             plot(psthTime, nanmean(rtrue)/obj.binSize*1e3, 'k', 'Linewidth', 2)
             title(n1)
             xlabel('ms')
+            ylabel('sp s^{-1}')
             
         end
         
@@ -1103,7 +1102,7 @@ classdef mtlipglm < handle
             
             p=inputParser();
             p.addOptional('lag', 200)
-            p.addOptional('smoothing', 20)
+            p.addOptional('smoothing', 100)
             p.addOptional('window', [-100 1e3])
             p.parse(varargin{:})
             
@@ -1132,7 +1131,7 @@ classdef mtlipglm < handle
                 ev(diff(ev)<lag)=[];
                 iter=iter+1;
             end
-            fprintf('exited loop at iter %d. %d events left\n', iter, numel(ev))
+%             fprintf('exited loop at iter %d. %d events left\n', iter, numel(ev))
             
             
             coh=arrayfun(@(x) sum(x.pulses), obj.trial);

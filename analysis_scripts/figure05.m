@@ -102,7 +102,7 @@ end
 
 % --- variance explained of the PSTH
 field='r2psth';
-modelNames={S(find(ix,1)).model.name};
+modelNames={S(1).model.name};
 r2MT    = arrayfun(@(x) x.model(strcmp(modelNames, 'MTsim')).(field), S);
 r2St    = arrayfun(@(x) x.model(strcmp(modelNames, 'Poisson')).(field), S);
 r2MTcho = arrayfun(@(x) x.model(strcmp(modelNames, 'MTsimChoice')).(field), S);
@@ -120,7 +120,6 @@ ylabel('MT-To-LIP (Full Choice Term)')
 
 % --- test log likelihood 
 field='llpoisson';
-modelNames = {S(find(ix,1)).model.name};
 llMT    = arrayfun(@(x) x.model(strcmp(modelNames, 'MTsim')).(field), S);
 llSt    = arrayfun(@(x) x.model(strcmp(modelNames, 'Poisson')).(field), S);
 llMTcho = arrayfun(@(x) x.model(strcmp(modelNames, 'MTsimChoice')).(field), S);
@@ -138,7 +137,7 @@ xlabel('Full Choice Term / Truncated')
 fprintf(1, 'MT input better than Stim by %02.0f%%, sign test (zval=%d, sign=%d) p=%d\n', nanmean(r2MT-r2St)*100, stats.zval, stats.signedrank, stest);
 [stest, ~, stats]=signrank(r2MTcho-r2MT);
 fprintf(1, 'Choice better than no Choice by %02.0f%%, sign test (zval=%d, sign=%d) p=%d\n', nanmean(r2MTcho-r2MT)*100, stats.zval, stats.signedrank, stest);
-fprintf(1, '%02.2f %% +- %02.2f of variance of PSTH explained by MTcho\n', 100*mean(r2MTcho), 100*std(r2MTcho)/sqrt(sum(ix)));
+fprintf(1, '%02.2f %% +- %02.2f of variance of PSTH explained by MTcho\n', 100*mean(r2MTcho), 100*std(r2MTcho)/sqrt(nNeurons));
 [stest, ~, stats]=signrank(llMT-llSt);
 fprintf(1, 'MT (log-likelihood) input better than Stim by %02.3f, sign test (zval=%d, sign=%d) p=%d\n', mean(llMT-llSt), stats.zval, stats.signedrank, stest);
 
@@ -147,7 +146,6 @@ fprintf(1, 'MT (log-likelihood) input better than Stim by %02.3f, sign test (zva
 plotAll=false;
 
 figure(12); clf
-
 
 % --- Targets
 subplot(3,1,2)
@@ -167,6 +165,7 @@ xd=[0 1500];
 plot(xd, f([0 0]), 'k', 'Linewidth', .5)
 
 title('Targets')
+ylabel('Gain')
 
 % --- Choice
 subplot(3,1,3)
@@ -186,7 +185,7 @@ OutRF=f(OutRF);
 
 m=mean(InRF,2);
 
-tx=S(find(ix,1)).model(kModel).wts.(field).tr;
+tx=S(1).model(kModel).wts.(field).tr;
 cmap=flipud(cbrewer('jake', 'rdbu', 2));
 if plotAll
     for i=1:size(InRF,2)
@@ -217,7 +216,7 @@ OutRF=f(OutRF);
 
 if ~plotAll
 m=mean(InRF,2);
-tx=S(find(ix,1)).model(kModel).wts.(field).tr;
+tx=S(1).model(kModel).wts.(field).tr;
 plot(tx, m, ':', 'Color', cmap(1,:), 'Linewidth', .5); hold on
 m=mean(OutRF,2);
 plot(tx, m, ':', 'Color', cmap(2,:), 'Linewidth', .5);
@@ -236,54 +235,68 @@ else
    ylim([.5 3]) 
 end
 xlim([-2500 500])
+xlabel('Time from covariate onset (ms)')
+
 
 title('Choice')
 
-% MT kernels
+% -------------------------------------------------------------------------
+% --- MT kernels
+% This code assesses the magnitude of a single pulse of simulated
+% MT input on LIP spike rate in units of spike rate gain
 
 subplot(3,1,1)
-% --- convolve MT kernels with simulated MT input from one pulse
+
+% --- First, load the stimulus kernels from the MT fits
 load(fullfile(dataPath, 'MTkernels.mat'))
 
-kCon = mean(kCons(:,isPat),2);
-kDir = mean(kDirs(:,isPat),2);
-b0 = mean(b0(isPat));
+% kCon = mean(kCons(:,isPat),2);
+% kDir = mean(kDirs(:,isPat),2);
+% b0 = mean(b0(isPat));
 
-% kCon = mean(kCons,2);
-% kDir = mean(kDirs,2);
-% b0 = mean(b0);
+% take the average as an approximation to an idealized MT neuron
+kCon = mean(kCons,2);
+kDir = mean(kDirs,2);
+b0 = mean(b0);
 
-
+% check how the fits were generated and adjust stimulus accordingly
 if contrastIsBoxcar
     contrast=[zeros(1,20), ones(1,105), zeros(1,20)];
 else
     contrast=[zeros(1,20), .2*ones(1,105), zeros(1,20)];
 end
 
+% simulated direction input
 pulse=[zeros(1, 20) (1/19)*ones(1,15) zeros(1, 20 + 6*15)];
 
+% MT is simulated by convolving the filters with the stimulus input,
+% summing and then exponentiating
 Xdir1 = filter(kDir, 1, -pulse);
 Xdir0 = filter(kDir, 1, pulse);
 Xcon = filter(kCon, 1, contrast);
-MTprefPulse1 = exp(b0 + Xdir1 + Xcon)/10;
-MTantiPulse1 = exp(b0 -Xdir1 + Xcon)/10;
-MTprefPulse0 = exp(b0 + Xdir0 + Xcon)/10;
-MTantiPulse0 = exp(b0 -Xdir0 + Xcon)/10;
+% pulse in the preferred direction
 
+binSize = diff(S(1).model(2).psthTime(1:2));
+MTprefPulse1 = exp(b0 + Xdir1 + Xcon)/binSize;
+MTantiPulse1 = exp(b0 -Xdir1 + Xcon)/binSize;
+% pulse in the antipreferred direction
+MTprefPulse0 = exp(b0 + Xdir0 + Xcon)/binSize;
+MTantiPulse0 = exp(b0 -Xdir0 + Xcon)/binSize;
+
+% Load MT-to-LIP filters from model fits
 kModel=strcmp(modelNames, 'MTsim');
 field='MTpref';
 MTpref=cell2mat(arrayfun(@(x) mean(x.model(kModel).wts.(field).data,2)', S, 'UniformOutput', false)')';
 field='MTanti';
 MTanti=cell2mat(arrayfun(@(x) mean(x.model(kModel).wts.(field).data,2)', S, 'UniformOutput', false)')';
-field='Motion';
-Motion=cell2mat(arrayfun(@(x) mean(x.model(kModel).wts.(field).data,2)', S, 'UniformOutput', false)')';
 
+% correct for the preferred choice of each LIP unit
 MTpref=bsxfun(@times, MTpref, prefDir); % align to the preferred direction
 MTanti=bsxfun(@times, MTanti, prefDir);
 
+% convolve MT-to-LIP filters with simulated MT input
 Cpref = convmtx(MTprefPulse1(:), size(MTpref, 1));
 Canti = convmtx(MTantiPulse1(:), size(MTpref, 1));
-Cmot  = convmtx(contrast(:), size(Motion, 1));
 
 % convolve with MT input
 MTpref1 = Cpref*MTpref;
@@ -294,9 +307,9 @@ Canti = convmtx(MTantiPulse0(:), size(MTpref, 1));
 MTpref0 = Cpref*MTpref;
 MTanti0 = Canti*MTanti;
 
-Motion1 = Cmot*Motion;
-
-tx = (1:size(MTpref1,1))*10 - (20 + (kPulse-1)*15)*10;
+tx = (1:size(MTpref1,1))*binSize - 200;
+% Effect of a pulse in the preffered direction over a pulse in the
+% anti-preffered direction
 MTpulseEffect=f(MTpref1+MTanti1 - MTpref0-MTanti0);
 plot(tx, mean(MTpulseEffect,2)); hold on
 
