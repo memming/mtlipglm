@@ -27,7 +27,7 @@ The code will not run without local copies of the data. To quickly reproduce fig
 2. [neurons, stimulus (no eye position data)](https://www.dropbox.com/s/0myzjnh5xy014pi/mtlipglm_data_small.zip?dl=0)
 3. [LIP fits](https://www.dropbox.com/s/xc5n2wh02wsjhzg/mtlipglm_lip_fits.zip?dl=0)
 
-You can download the data through #1 or #2 and then refit yourself, or download #3 as well for a quick reproduction of figure 5.
+You can download the data through #1 or #2 and then refit yourself, or additionally download #3 as well for a quick reproduction of figure 5.
 
 If you downloaded the fits, move `main_fits` and `lip_trunc_fits` to the directory where neurons and stim are. The `mtlipglm` code will assume that they are all in the same base directory.
 
