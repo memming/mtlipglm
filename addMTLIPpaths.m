@@ -1,9 +1,24 @@
-addpath(fullfile(pwd, './code/'))
-addpath(fullfile(pwd, './analysis_scripts/'))
+addpath(fullfile(pwd, 'code'))
+addpath(fullfile(pwd, 'code', 'dependencies'))
+addpath(fullfile(pwd, 'analysis_scripts'))
 
-% required toolboxes
+% this is where your data live
+dataPath = '';
+setpref('mtlipglm', 'dataPath', dataPath)
 
 % neuroGLM - must be downloaded from https://github.com/jcbyts/neuroGLM
-% (classy branch)
-neuroGLMpath = 'D:\Dropbox\MatlabCode\Repos\neuroGLM';
+neuroGLMpath = '';
 addpath(neuroGLMpath)
+
+% --- setup directory structure
+if isdir(dataPath)
+    fit_dir = fullfile(dataPath, 'main_fits');
+    if ~isdir(fit_dir)
+        mkdir(fit_dir)
+    end
+    
+    fit_dir = fullfile(dataPath, 'lip_trunc_fits');
+    if ~isdir(fit_dir)
+        mkdir(fit_dir)
+    end
+end
