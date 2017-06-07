@@ -3,12 +3,21 @@ addpath(fullfile(pwd, 'code', 'dependencies'))
 addpath(fullfile(pwd, 'analysis_scripts'))
 
 % this is where your data live
-dataPath = '';
+dataPath = ''; % EDIT THIS LINE %%%%%%%%%%%%%%%%%%
+if isempty(dataPath)
+    error('dataPath must be specified');
+end
 setpref('mtlipglm', 'dataPath', dataPath)
 
-% neuroGLM - must be downloaded from https://github.com/jcbyts/neuroGLM
-neuroGLMpath = '';
+% set neuroGLM path
+neuroGLMpath = ''; % EDIT THIS LINE %%%%%%%%%%%%%%%%%%
+if isempty(neuroGLMpath)
+    error('neuroGLM - must be downloaded from https://github.com/jcbyts/neuroGLM');
+end
 addpath(neuroGLMpath)
+if exist('neuroGLM') ~= 2
+    error('neuroGLM path invalid');
+end
 
 % --- setup directory structure
 if isdir(dataPath)
