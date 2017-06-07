@@ -17,7 +17,7 @@ cho=arrayfun(@(x) x.choice, trial);
 
 
 psthTime=(win(1):win(2))*g.binSize;
-[~,~,~,rtrue]=pdsa.eventTriggeredAverage(y, motionOn, win); %#ok<FNDSB>
+[~,~,~,rtrue]=eventTriggeredAverage(y, motionOn, win); %#ok<FNDSB>
 
 % dpcell=dprime(nanmean(rtrue(:,psthTime>0 & psthTime < 1e3),2),cho);
 % if dpcell<0

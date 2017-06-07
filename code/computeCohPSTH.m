@@ -43,8 +43,8 @@ cho=arrayfun(@(x) x.choice, trial);
 
 psthTime=(win(1):win(2))*g.binSize;
 nPsthBins=numel(psthTime);
-[~,~,~,rtrue]=pdsa.eventTriggeredAverage(y, motionOn, win); %#ok<FNDSB>
-% [rtrue, bcenters, vidx]=pdsa.binSpTimes(y
+[~,~,~,rtrue]=eventTriggeredAverage(y, motionOn, win); %#ok<FNDSB>
+% [rtrue, bcenters, vidx]=binSpTimes(y
 if ~exist('dpcell', 'var')
     ix=sum(isnan(rtrue(:,psthTime>100 & psthTime < 1200)),2)==0;
     rtr=rtrue(ix,psthTime>0 & psthTime < 1400);
@@ -144,7 +144,7 @@ nTrials=fliplr(nTrials);
 %     
 
 if nargout<1 || plotIt
-    set(gcf, 'defaultAxesColorOrder', pdsa.cbrewer('jake', 'rdbu', nCohs))
+    set(gcf, 'defaultAxesColorOrder', cbrewer('jake', 'rdbu', nCohs))
     plot(psthTime, rbar)
     xlim([-100 1200])
 end

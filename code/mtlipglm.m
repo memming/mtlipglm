@@ -776,7 +776,7 @@ classdef mtlipglm < handle
             nNeurons=numel(obj.neurons);
             sx=5;
             sy=5;
-            ax=pdsa.tight_subplot(sy,sx,.002, .002);
+            ax=tight_subplot(sy,sx,.002, .002);
             for kNeuron=1:nNeurons
                 set(gcf, 'currentaxes', ax(kNeuron))
                 obj.neurons(kNeuron).plotMap; axis on
@@ -821,7 +821,7 @@ classdef mtlipglm < handle
             nNeurons=numel(obj.neurons);
             sx=5;
             sy=5;
-            ax=pdsa.tight_subplot(sy,sx,.002, .002);
+            ax=tight_subplot(sy,sx,.002, .002);
             for k=1:numel(ax)
                 set(gcf, 'currentaxes', ax(k))
                 axis off
@@ -845,7 +845,7 @@ classdef mtlipglm < handle
                 end
                 ev=aligningField+[obj.neurons(kNeuron).stim.timing(id).plxstart];
                 
-                spcnt=pdsa.binSpTimes(obj.neurons(kNeuron).spikeTimes, ev(ii), win, 1e-3);
+                spcnt=binSpTimes(obj.neurons(kNeuron).spikeTimes, ev(ii), win, 1e-3);
                 switch p.Results.plotMode
                     case 'image'
                         if ~isempty(p.Results.indices)
@@ -1086,7 +1086,7 @@ classdef mtlipglm < handle
             rbar(:,2)=nanmean(rtrue(~cho,:));
             
             
-            set(gcf, 'DefaultAxesColorOrder', pdsa.cbrewer('jake', 'rdbu', size(rbar,2)))
+            set(gcf, 'DefaultAxesColorOrder', cbrewer('jake', 'rdbu', size(rbar,2)))
             plot(psthTime, rbar/obj.binSize*1e3)
             hold on
             plot(psthTime, nanmean(rtrue)/obj.binSize*1e3, 'k', 'Linewidth', 2)
@@ -1162,7 +1162,7 @@ classdef mtlipglm < handle
             end
             
 
-            set(gcf, 'DefaultAxesColorOrder', pdsa.cbrewer('jake', 'rdbu', size(rbar,2)))
+            set(gcf, 'DefaultAxesColorOrder', cbrewer('jake', 'rdbu', size(rbar,2)))
             plot(psthTime, rbar/obj.binSize*1e3)
             hold on
             plot(psthTime, nanmean(rtrue)/obj.binSize*1e3, 'k', 'Linewidth', 2)

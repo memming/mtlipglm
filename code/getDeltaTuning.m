@@ -7,4 +7,4 @@ function deltaStim = getDeltaTuning(stimDir, prefDir)
 % Outputs
 %   deltaStim - distance (in degrees) between the two preferred angles
 
-deltaStim = abs(pdsa.diffCirc(stimDir, prefDir));
+deltaStim = abs(diffCirc(stimDir, prefDir));

@@ -23,7 +23,7 @@ CP.trialIndices = trialIndices;
 % centeringField = stim.timing.motionOnset(:,1) + stim.timing.plxstart;
 centeringField = stim.timing.motionon(:,1) + stim.timing.plxstart;
 
-[~,~,binCenters, ~, trialSpikeCount] = pdsa.eventPsth(spikeTimes, centeringField(trialIndices), opts.aligningWindow, opts.binSize, opts.smoothingKern);
+[~,~,binCenters, ~, trialSpikeCount] = eventPsth(spikeTimes, centeringField(trialIndices), opts.aligningWindow, opts.binSize, opts.smoothingKern);
 
 X = sum(stim.pulses,3); 
 targPlus = mode(stim.targchosen(sign(sum(X,2)) == stim.targchosen));

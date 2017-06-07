@@ -41,7 +41,7 @@ classdef neuro < handle
         
         %--- Distance from stimulus tuning
         function p = deltaStim(N)
-            p = pdsa.diffCirc(N.prefDir,N.stim.theta);
+            p = diffCirc(N.prefDir,N.stim.theta);
         end
         
         
@@ -280,7 +280,7 @@ classdef neuro < handle
             
             fkern=[];
            
-            [~,~,psthTime,~,r]=pdsa.eventPsth(N.nreader.spikeTimes,ev,win,bs,fkern);
+            [~,~,psthTime,~,r]=eventPsth(N.nreader.spikeTimes,ev,win,bs,fkern);
             
             assert(~any(any(isnan(r),2)), 'NaNs found')
                 
@@ -335,7 +335,7 @@ classdef neuro < handle
                 fkern=[];
             end
             
-            [~,~,psthTime,~,r]=pdsa.eventPsth(N.nreader.spikeTimes,ev,win,bs,fkern);
+            [~,~,psthTime,~,r]=eventPsth(N.nreader.spikeTimes,ev,win,bs,fkern);
             nPsthBins=numel(psthTime);
             assert(~any(any(isnan(r),2)), 'NaNs found')
                 
@@ -451,7 +451,7 @@ end
 %             fkernel=exp(-(-10:10).^2/(2*sig/binSize).^2); fkernel=fkernel/sum(fkernel);
 %             fkernel=exp(-(1:100)/(sig/binSize)); fkernel=fkernel/sum(fkernel);
             fkernel=[];
-            [~,~,bc,~,rtrial]=pdsa.eventPsth(N.nreader.spikeTimes, ev(good), win, binSize, fkernel);
+            [~,~,bc,~,rtrial]=eventPsth(N.nreader.spikeTimes, ev(good), win, binSize, fkernel);
             rfilt=rtrial;
             rtc = rfilt;
             rtc(cho(good),:)  = repmat(mean(rfilt(cho(good),:)), sum(cho(good)),1);
@@ -513,7 +513,7 @@ end
 %             fkernel=exp(-(-10:10).^2/(2*sig/binSize).^2); fkernel=fkernel/sum(fkernel);
 %             fkernel=exp(-(1:100)/(sig/binSize)); fkernel=fkernel/sum(fkernel);
             fkernel=[];
-            [~,~,bc,~,rtrial]=pdsa.eventPsth(N.nreader.spikeTimes, ev(good), win, binSize, fkernel);
+            [~,~,bc,~,rtrial]=eventPsth(N.nreader.spikeTimes, ev(good), win, binSize, fkernel);
             rfilt=rtrial;
             
             
@@ -582,7 +582,7 @@ end
             win=[-.5 2.5];
             sig=.025;
             fkernel=exp(-(-1:100).^2/(2*sig/binSize).^2); fkernel=fkernel/sum(fkernel);
-            [~,~,bc,~,rtrial]=pdsa.eventPsth(N.nreader.spikeTimes, ev(good), win, binSize);
+            [~,~,bc,~,rtrial]=eventPsth(N.nreader.spikeTimes, ev(good), win, binSize);
             
             rfilt=filter(fkernel,1,rtrial')';
             

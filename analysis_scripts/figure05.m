@@ -50,7 +50,7 @@ for iModel=1:numel(modelIxs)
         if any(strfind(field, 'pta'))
             cmap=hot(12);
         else
-            cmap=pdsa.cbrewer('jake', 'rdbu', 8);
+            cmap=cbrewer('jake', 'rdbu', 8);
         end
         
         for kM=1:nModels
@@ -187,7 +187,7 @@ OutRF=f(OutRF);
 m=mean(InRF,2);
 
 tx=S(find(ix,1)).model(kModel).wts.(field).tr;
-cmap=flipud(pdsa.cbrewer('jake', 'rdbu', 2));
+cmap=flipud(cbrewer('jake', 'rdbu', 2));
 if plotAll
     for i=1:size(InRF,2)
         plot(tx, InRF(:,i),  'Linewidth', .1, 'Color', cmap(1,:)); hold on
