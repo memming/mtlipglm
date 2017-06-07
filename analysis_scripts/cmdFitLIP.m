@@ -5,13 +5,13 @@
 % All analyses are handled by the mtlipglm class. The design/fitting of
 % each GLM is handled by the glmspike class, which is an instance of the
 % neuroGLM class available at https://github.com/jcbyts/neuroGLM
-
+dataPath = 'D:\mtlip_data_share';
 
 % --- Find experiments that have multiple LIP units
 experiments=getExperimentsAnd({'LIP', 'simultaneous'});
 regenerateModelComparisonFiles = true; % regenerate model comparison files from fits
 ridgeParameter = 0.1; % regularize fits with ridge-regression (L2 penatly)
-refitModel     = true; % if true, fits will be overwritten
+refitModel     = false; % if true, fits will be overwritten
 
 % Parfor if possible, change to for-loop if you do not have the parallel
 % toolbox
@@ -54,7 +54,7 @@ parfor kExperiment=1:numel(experiments)
             % 4 - Intra-Area Coupling
             % 5 - MT-to-LIP (simulated MT)
             % 6 - MT-to-LIP (with full choice term)
-            modelsToFit = [1 5 6];
+            modelsToFit = [1 5 6]; % 1, 5, 6 are the only fits provided
             
             % edit mtlipglm/fitAllModels to see fitting code
             g=fitAllModels(mstruct,kNeuron,true,modelsToFit,'instantaneousCoupling', true, 'rho', ridgeParameter);
