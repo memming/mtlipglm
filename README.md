@@ -1,6 +1,10 @@
 # MT LIP GLM
 
-This Repo provides MATLAB code for the analyses in Yates et al. (2017)
+This Repo provides MATLAB code for the analyses in Yates et al. (2017):
+
+Yates, J. L., Park, I. M., Katz, L. N., Pillow, J. W., and Huk, A. C. (2017).
+[Functional dissection of signal and noise in MT and LIP during decision-making
+](http://doi.org/10.1038/nn.4611). _Nature Neuroscience_. 
 
 ## Getting started / installation
 
@@ -21,15 +25,7 @@ You will also need the `classy` branch of neuroGLM code
 ```
 
 ### Getting the data
-The code will not run without local copies of the data. To quickly reproduce figures from the manuscript requires both the data and the fitted GLMs. Because all the data and fits takes up a fair amount of disk space, there are a number of options.
-
-1. [neurons, stimulus (with eye position)](https://www.dropbox.com/s/ix7vtrid2rlfuyx/mtlipglm_data_full.zip?dl=0)
-2. [neurons, stimulus (no eye position data)](https://www.dropbox.com/s/0myzjnh5xy014pi/mtlipglm_data_small.zip?dl=0)
-3. [LIP fits](https://www.dropbox.com/s/xc5n2wh02wsjhzg/mtlipglm_lip_fits.zip?dl=0)
-
-You can download the data through #1 or #2 and then refit yourself, or additionally download #3 as well for a quick reproduction of figure 5.
-
-If you downloaded the fits, move `main_fits` and `lip_trunc_fits` to the directory where neurons and stim are. The `mtlipglm` code will assume that they are all in the same base directory.
+The code will not run without local copies of the data. To quickly reproduce figures from the manuscript requires both the data and the fitted GLMs. Please contact the authors to obtain the required data and fitted GLMs.
 
 ### Before running
 Note: this code has only been tested on MATLAB 2015b and newer.
